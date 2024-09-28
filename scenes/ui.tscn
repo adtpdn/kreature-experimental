@@ -1,0 +1,95 @@
+[gd_scene load_steps=2 format=3 uid="uid://bbxtvnpympn6d"]
+
+[ext_resource type="Script" path="res://scenes/ui.gd" id="1_law0v"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_law0v")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -136.0
+offset_right = 53.0
+grow_vertical = 0
+
+[node name="Left" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Left"
+
+[node name="Right" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Right"
+
+[node name="Up" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Up"
+
+[node name="Down" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Down"
+
+[node name="MenuButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -53.0
+offset_top = -31.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Menu"
+
+[node name="CastingModeButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 548.0
+offset_top = -31.0
+offset_right = 601.0
+grow_vertical = 0
+text = "Cast"
+
+[node name="BaitMenu" type="PopupPanel" parent="."]
+initial_position = 1
+size = Vector2i(300, 300)
+
+[node name="MenuContainer" type="VBoxContainer" parent="BaitMenu"]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 296.0
+offset_bottom = 296.0
+
+[node name="MenuLabel" type="Label" parent="BaitMenu/MenuContainer"]
+layout_mode = 2
+text = "CAUGHT  FISH"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="BaitMenu/MenuContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BaitMenu/MenuContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="CaughtFishLabel" type="Label" parent="BaitMenu/MenuContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "- - -"
+horizontal_alignment = 1
+
+[node name="SellFishButton" type="Button" parent="BaitMenu/MenuContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Sell"

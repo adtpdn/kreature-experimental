@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://cstam4sol2qhc"]
+
+[ext_resource type="Script" path="res://scenes/player.gd" id="1_y7rvj"]
+[ext_resource type="Texture2D" uid="uid://xj4ey2k6iiv6" path="res://assets/boat.png" id="2_7cc2o"]
+[ext_resource type="Script" path="res://scenes/cast_area.gd" id="3_s2d6x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ujrpo"]
+size = Vector2(120, 36)
+
+[node name="Player" type="CharacterBody2D"]
+rotation = -3.14159
+script = ExtResource("1_y7rvj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 2
+rotation = 3.14159
+texture = ExtResource("2_7cc2o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.32647e-14, -4.76837e-07)
+shape = SubResource("RectangleShape2D_ujrpo")
+
+[node name="CastArea" type="Node2D" parent="."]
+script = ExtResource("3_s2d6x")
+
+[node name="CastCooldown" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true

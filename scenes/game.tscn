@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=3 uid="uid://bp8xeo7n3tsrb"]
+
+[ext_resource type="Script" path="res://scenes/game.gd" id="1_l182h"]
+[ext_resource type="PackedScene" uid="uid://cstam4sol2qhc" path="res://scenes/player.tscn" id="1_wll67"]
+[ext_resource type="Script" path="res://scenes/fish_spawner.gd" id="2_dxuy4"]
+[ext_resource type="Resource" uid="uid://cigsa33qv7qyl" path="res://resources/worm.tres" id="2_f16ud"]
+[ext_resource type="PackedScene" uid="uid://bbxtvnpympn6d" path="res://scenes/ui.tscn" id="3_oid0o"]
+[ext_resource type="Texture2D" uid="uid://kvijslikyv6t" path="res://assets/water.png" id="5_lbu7e"]
+[ext_resource type="Shader" path="res://scenes/water.gdshader" id="5_ygcdn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eetfg"]
+shader = ExtResource("5_ygcdn")
+shader_parameter/OCTAVE = 6
+shader_parameter/mulscale = 20.0
+shader_parameter/height = 0.5
+shader_parameter/tide = 0.1
+shader_parameter/foamthickness = 0.1
+shader_parameter/timescale = 1.0
+shader_parameter/waterdeep = 1.0
+shader_parameter/WATER_COL = Color(0.1536, 0.46976, 0.64, 0)
+shader_parameter/WATER2_COL = Color(0.1173, 0.372555, 0.51, 0.627451)
+shader_parameter/FOAM_COL = Color(0.249, 0.616967, 0.83, 0.156863)
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_l182h")
+current_bait = ExtResource("2_f16ud")
+
+[node name="Player" parent="." instance=ExtResource("1_wll67")]
+z_index = 2
+position = Vector2(224, 195)
+
+[node name="FishSpawner" type="Node2D" parent="."]
+script = ExtResource("2_dxuy4")
+
+[node name="SpawnTimer" type="Timer" parent="FishSpawner"]
+autostart = true
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Control" parent="UI" instance=ExtResource("3_oid0o")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(576, 320)
+scale = Vector2(33.71, 19.26)
+texture = ExtResource("5_lbu7e")
+
+[node name="WaterWave" type="Sprite2D" parent="."]
+z_index = 1
+material = SubResource("ShaderMaterial_eetfg")
+position = Vector2(576, 320)
+scale = Vector2(33.71, 19.26)
+texture = ExtResource("5_lbu7e")
+
+[connection signal="timeout" from="FishSpawner/SpawnTimer" to="FishSpawner" method="_on_SpawnTimer_timeout"]

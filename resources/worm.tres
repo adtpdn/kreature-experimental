@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Bait" load_steps=2 format=3 uid="uid://cigsa33qv7qyl"]
+
+[ext_resource type="Script" path="res://scenes/bait.gd" id="1_4i26v"]
+
+[resource]
+script = ExtResource("1_4i26v")
+name = "worm"
+catch_rate = 0.0

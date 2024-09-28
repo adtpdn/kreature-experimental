@@ -1,0 +1,84 @@
+[gd_scene load_steps=13 format=3 uid="uid://rkvohspxbssh"]
+
+[ext_resource type="Script" path="res://scenes/fish.gd" id="1_iob34"]
+[ext_resource type="Texture2D" uid="uid://cwxgsh644vlhi" path="res://assets/fish-swim.png" id="2_n64ie"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4jhy4"]
+size = Vector2(8, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uaot5"]
+atlas = ExtResource("2_n64ie")
+region = Rect2(0, 0, 8, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_udw4u"]
+atlas = ExtResource("2_n64ie")
+region = Rect2(8, 0, 8, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wyjed"]
+atlas = ExtResource("2_n64ie")
+region = Rect2(16, 0, 8, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tvf0r"]
+atlas = ExtResource("2_n64ie")
+region = Rect2(24, 0, 8, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xc4ga"]
+atlas = ExtResource("2_n64ie")
+region = Rect2(32, 0, 8, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kqbj4"]
+atlas = ExtResource("2_n64ie")
+region = Rect2(40, 0, 8, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qo56w"]
+atlas = ExtResource("2_n64ie")
+region = Rect2(48, 0, 8, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_34oxk"]
+atlas = ExtResource("2_n64ie")
+region = Rect2(56, 0, 8, 13)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ijn1u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uaot5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_udw4u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wyjed")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tvf0r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xc4ga")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kqbj4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qo56w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_34oxk")
+}],
+"loop": true,
+"name": &"swim",
+"speed": 5.0
+}]
+
+[node name="Fish" type="Area2D"]
+script = ExtResource("1_iob34")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_4jhy4")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 1
+sprite_frames = SubResource("SpriteFrames_ijn1u")
+animation = &"swim"
+frame_progress = 0.646879
+speed_scale = 2.0

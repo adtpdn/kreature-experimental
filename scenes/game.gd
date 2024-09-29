@@ -3,12 +3,13 @@ extends Node2D
 @export var current_bait : Bait
 var caught_fish = 0
 var active_floater: Node2D = null
+var is_reeling = false
 
 @onready var player = $Player
 @onready var ui = $UI/Control
 @onready var fish_spawner = $FishSpawner
 
-var Floater = preload("res://scenes/floater.tscn")  # Make sure to create this scene
+var Floater = preload("res://scenes/floater.tscn")
 
 func _ready():
 	ui.set_player(player)
@@ -17,11 +18,17 @@ func _ready():
 	fish_spawner.fish_caught.connect(_on_fish_caught)
 	player.moved.connect(_on_player_moved)
 	player.cast.connect(_on_player_cast)
-	print("Game ready, signals connected")  # Debug print
+	player.reel_started.connect(_on_reel_started)
+	player.reel_ended.connect(_on_reel_ended)
 
-func _on_bait_selected(bait):
-	current_bait = bait
-	print("Bait selected: ", bait.name if bait else "None")  # Debug print
+func _process(delta):
+	if is_reeling and active_floater:
+		var direction = (player.global_position - active_floater.global_position).normalized()
+		active_floater.global_position += direction * 100 * delta
+		update_fish_attraction(active_floater.global_position)
+		if active_floater.global_position.distance_to(player.global_position) < 10:
+			remove_floater()
+			is_reeling = false
 
 func _on_fish_caught():
 	if current_bait and randf() < current_bait.catch_rate:
@@ -33,32 +40,45 @@ func _on_player_moved(new_position):
 	pass
 
 func _on_player_cast(cast_position):
-	print("Cast received at position: ", cast_position)  # Debug print
 	if current_bait:
 		if active_floater:
-			active_floater.queue_free()
-		active_floater = Floater.instantiate()
-		add_child(active_floater)
-		active_floater.global_position = cast_position
-		active_floater.set_attraction_radius(50)  # Adjust as needed
-		print("Floater created at: ", active_floater.global_position)  # Debug print
-		attract_nearby_fish(cast_position)
+			remove_floater()
+		create_floater(cast_position)
 	else:
-		print("No bait selected")  # Debug print
+		print("No bait selected, cannot cast")
 
-func attract_nearby_fish(bait_position):
+func remove_floater():
+	if active_floater:
+		active_floater.queue_free()
+		active_floater = null
+	update_fish_attraction(null)
+
+func _on_reel_started():
+	is_reeling = true
+
+func _on_reel_ended():
+	is_reeling = false
+
+func create_floater(position):
+	active_floater = Floater.instantiate()
+	add_child(active_floater)
+	active_floater.global_position = position
+	active_floater.set_attraction_radius(50)
+	update_fish_attraction(position)
+
+func update_fish_attraction(bait_position):
 	for fish in fish_spawner.get_children():
-		if fish is Area2D and fish.position.distance_to(bait_position) <= 100:  # Adjust attraction range as needed
-			fish.attract_to_bait(bait_position)
+		if fish is Area2D:
+			fish.update_bait_position(bait_position)
+
+func _on_bait_selected(bait):
+	current_bait = bait
 
 func reset_bait():
 	if active_floater:
 		active_floater.queue_free()
 		active_floater = null
-	for fish in fish_spawner.get_children():
-		if fish is Area2D:
-			fish.reset_attraction()
+	update_fish_attraction(null)
 
 func _on_toggle_casting_mode(enabled):
 	player.toggle_casting_mode(enabled)
-	print("Casting mode toggled in game: ", enabled)  # Debug print

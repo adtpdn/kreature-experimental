@@ -8,6 +8,6 @@ func _draw():
 func _process(_delta):
 	queue_redraw()
 
-func set_cast_range(range):
-	cast_range = range
+func set_cast_range(new_range):
+	cast_range = new_range
 	queue_redraw()
